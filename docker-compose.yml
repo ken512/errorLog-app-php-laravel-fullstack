@@ -4,7 +4,6 @@
 # 同じCompose内のコンテナは、mysqlやappというサービス名で接続する
 # MySQLのMac側ポートを3307にして、既存環境の3306との衝突を避けている。
 
-
 services:
   app:
     build:
@@ -45,7 +44,6 @@ services:
       timeout: 5s
       retries: 30
       start_period: 30s
-
   node:
     image: node:22-bookworm-slim
     working_dir: /var/www/html
@@ -54,6 +52,15 @@ services:
     volumes:
       - ./src:/var/www/html
     command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
+  phpmyadmin:
+    image: phpmyadmin:5
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "127.0.0.1:3001:80"
 
 volumes:
   mysql-data:
