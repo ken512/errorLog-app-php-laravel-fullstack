@@ -1,3 +1,31 @@
+## 開発環境のディレクトリ構成
+
+```text
+.
+├── docker/
+│   ├── nginx/
+│   │   └── default.conf
+│   └── php.dockerfile
+├── src/                  # Laravel・Reactのアプリケーション
+├── .env                  # Docker Compose用のMySQL設定
+├── .env.example
+├── docker-compose.yml
+└── README.md
+```
+
+[laravel-vite-docker](https://github.com/elvinlari/laravel-vite-docker) を参考に、Docker設定を `docker/`、アプリケーションを `src/` に配置しています。
+Laravelの環境変数は `src/.env` で管理します。ルートの `.env.example` はLaravel用のテンプレートです。
+
+```sh
+docker compose up -d --build
+docker compose exec app composer install
+docker compose exec app php artisan migrate
+```
+
+アプリケーション: http://localhost:8080
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
